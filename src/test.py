@@ -4,7 +4,7 @@ import time
 from subsystems.camera import camera
 
 def main():
-    camera()
+    camera("Laptop Webcam Module (2nd Gen)")
     while True:
         time.sleep(1)
 

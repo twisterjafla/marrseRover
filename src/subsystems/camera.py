@@ -1,4 +1,6 @@
 import typing
+
+from cv2_enumerate_cameras import enumerate_cameras
 from subsystems.subsystem import subsystem
 import cv2
 import numpy
@@ -11,8 +13,23 @@ import socket
 class camera(subsystem):
     IP="0.0.0.0"
     PORT=8000
-    def __init__(self, shouldServe:bool=True):
-        self.camera = cv2.VideoCapture(0)
+    def __init__(self, camName:str, shouldServe:bool=True):
+        if camName==None:
+            self.camera = cv2.VideoCapture(0)
+        else:
+            hasFound=False
+
+            for i in enumerate_cameras(cv2.CAP_V4L2):   
+                #print("|"+i.name+"|")
+
+                if i.name==camName+":":
+                    self.camera=cv2.VideoCapture(i.index)
+                    hasFound=True
+                    break
+                    
+            if not hasFound:
+                raise RuntimeError('Camera not found!')
+            
         self.shouldServe=shouldServe
         
 
