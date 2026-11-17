@@ -1,10 +1,11 @@
 #temp file for testing use. Can and will be overwritten.
 
 import time
+from constants import constants
 from subsystems.camera import camera
 
 def main():
-    camera("Laptop Webcam Module (2nd Gen)")
+    camera(constants.testCamName, None)
     while True:
         time.sleep(1)
 

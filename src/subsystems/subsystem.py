@@ -4,13 +4,17 @@ import threading
 from threading import Thread
 import time
 
+import robot
+
+
 
 class subsystem:
 
-    def __init__(self, name:str, shouldStart:bool=True, loopTime:int=20):
+    def __init__(self, parent:"robot.robot", name:str, shouldStart:bool=True, loopTime:int=20):
         self.thread:Thread=None # type: ignore
         self.shouldLive=False
         self.name=name
+        self.parent=parent
         self.loopTime=loopTime
         if shouldStart:
 

@@ -1,20 +1,15 @@
-import typing
 
 from cv2_enumerate_cameras import enumerate_cameras
+import robot
 from subsystems.subsystem import subsystem
 import cv2
-import numpy
 import http.server
-import socketserver
-import cv2
-import io
-import socket
 
 class camera(subsystem):
     IP="0.0.0.0"
     PORT=8000
-    def __init__(self, camName:str, shouldServe:bool=True):
-        if camName==None:
+    def __init__(self, parent:"robot.robot", camName:str, shouldServe:bool=True):
+        if camName==None: # type: ignore
             self.camera = cv2.VideoCapture(0)
         else:
             hasFound=False
@@ -34,7 +29,7 @@ class camera(subsystem):
         
 
 
-        subsystem.__init__(self, "camera")
+        subsystem.__init__(self, parent, "camera")
 
 
     def start(self):
@@ -44,11 +39,9 @@ class camera(subsystem):
         super().start()
 
     def main(self):
-        if self.shouldServe:
-            frame=self.getFrame
+        pass
 
-            if frame!=None: 
-                self.httpd.ser
+
 
     
     
@@ -63,7 +56,7 @@ class camera(subsystem):
 
 
     def kill(self):
-        if self.httpd!=None:
+        if self.httpd!=None: # type: ignore
             self.httpd.shutdown()
         super().kill()
     
@@ -72,9 +65,9 @@ class camera(subsystem):
 
 class cameraServer(http.server.BaseHTTPRequestHandler):
 
-    def __init__(self, Any, _RetAddress, ThreadingHTTPServer, host:camera):
+    def __init__(self, Any, _RetAddress, ThreadingHTTPServer, host:camera): # type: ignore
         self.camera = host
-        super().__init__(Any, _RetAddress, ThreadingHTTPServer)
+        super().__init__(Any, _RetAddress, ThreadingHTTPServer) # type: ignore
 
     def do_GET(self):
 
@@ -89,10 +82,10 @@ class cameraServer(http.server.BaseHTTPRequestHandler):
 
                 frame = self.camera.getFrame()
 
-                if frame!=None:
+                if frame!=None: # type: ignore
                     self.wfile.write(b'--frame\r\n')
                     self.send_header('Content-Type', 'image/jpeg')
-                    self.send_header('Content-Length', len(frame))
+                    self.send_header('Content-Length', str(len(frame)))
                     self.end_headers()
                     self.wfile.write(frame)
 
