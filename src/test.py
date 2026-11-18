@@ -5,7 +5,7 @@ from constants import constants
 from subsystems.camera import camera
 
 def main():
-    camera(constants.testCamName, None)
+    camera(None, constants.realCamName)
     while True:
         time.sleep(1)
 

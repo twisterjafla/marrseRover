@@ -15,9 +15,9 @@ class camera(subsystem):
             hasFound=False
 
             for i in enumerate_cameras(cv2.CAP_V4L2):   
-                #print("|"+i.name+"|")
+                print("|"+i.name+"|", camName, i.name==camName)
 
-                if i.name==camName+":":
+                if i.name==camName:
                     self.camera=cv2.VideoCapture(i.index)
                     hasFound=True
                     break
